@@ -1,0 +1,404 @@
+body{
+	font-family:tahoma;
+	font-size:12px;
+	margin: 0;
+    padding:10px;	
+}
+
+nav ul{
+	margin:0 auto;	
+	list-style:none;
+	text-align:center;
+	position: relative;
+ }
+
+nav ul li{
+	display:inline-block;
+	padding:10px;
+	border-right:1px solid white;
+    margin: 0px -7px 0 0;
+}
+			
+nav a {
+	display:block;
+	padding:0 10px;			    
+	font-size:14px;
+	text-decoration:underline;
+}
+
+nav ul ul {
+	display: none;
+	position: absolute;
+	top: 100%;
+    background-color: white;
+    margin-left: -80px;
+    border: 1px solid silver;
+}
+
+nav ul li:hover > ul {
+	display:inherit;
+}
+			
+nav ul ul li {	
+	display:list-item;
+	position: relative;
+    text-align: left;
+}
+
+nav ul li.active ul li a{	
+	font-weight:300;
+}
+/*, nav ul ul li.active a*/
+nav ul li.active a, nav ul li.active ul li.active a{
+	font-weight:700;
+}
+
+.hide {
+	display:none;
+}
+/* .getform{
+    display:none;
+} */
+
+/* оформление таблиц */
+.spr_table{
+	margin:5px;
+	padding:10px;
+	border-collapse: collapse;	
+	margin-right:15px;
+	
+}
+.spr_table th{
+	background-color:#dae3ea;
+}
+
+.spr_table th, .spr_table td{
+	border:1px solid silver;
+	padding:10px;
+}
+
+#spec.spr_table .edit_del_links, #docs.spr_table .edit_del_links, #avan.spr_table .edit_del_links{
+	display:none;
+}
+
+
+#docs.spr_table  th{
+	background-color:#bac9ce;
+}
+
+#docs.spr_table th,#docs.spr_table td{
+	font-size:11px;
+	border:1px solid white;
+}
+
+.spr_title, .spr_title a {
+	font-size:16px;
+	font-weight:bold;
+	color:gray;
+	padding:10px;
+    border-bottom:1px solid gray;
+    margin-bottom:15px;
+}
+
+.new_record td{
+	border:1px solid green;
+	border-top:1px solid green;
+}
+
+.new_record_title td{
+	height:15px;
+	border:none;
+}
+
+.del_record, .del_file{
+	text-decoration:underline;
+	cursor:pointer;
+	color:#ad0a21;
+}
+.del_record:hover{	
+	color:black;
+}
+
+.edit_record{
+	color:#067609;
+}
+
+a.edit_record:hover{
+	color:black;
+}
+
+/* оформление форм */
+
+#spr_form label{	
+    display: block;
+    font-weight: bold;
+	margin:10px 0 0;	
+	padding: 3px 0;
+}
+
+#spr_form.search label{
+	font-weight: normal;
+	color: #1f3c4b;
+	font-size:13px;
+}
+
+#spr_form input[type="text"], #spr_form textarea, #spr_form select, #spr_form .symbol_field, #spr_form  .autocomplete_field, .quick_search input{	
+    width:360px;
+	min-height:25px;
+	font-size:14px;
+	color:#094460;	
+	border:1px solid silver;
+	margin-bottom: 3px;
+    padding:0 2px 0 2px;
+}
+
+#spr_form input[type="submit"], .submit{	
+    height:35px;	
+	margin:12px 0 0;
+	display:block;
+	width:100px;
+}
+
+#spr_form.input_data input[type="submit"]{
+    width:auto;
+}
+
+#spr_form textarea{
+	min-height:45px;
+}
+
+#spr_form .symbol_field,#spr_form .autocomplete_field{
+	background-color:white;
+	border:1px solid silver;	
+	padding:3px 0 3px 0;
+	height:16px;
+}
+
+#spr_form .autocomplete_field {
+	padding: 0;
+}
+
+#spr_form .file_list{
+	padding:3px 0 7px;
+}
+
+#spr_form .file_list div{
+	padding-right: 17px;
+}
+
+#spr_form.docs input[type="text"], #spr_form.docs input[type="file"],#spr_form.docs textarea, #spr_form.docs select, #spr_form .docs .symbol_field{	
+    width:200px;
+}
+
+#spr_form.search input[type="text"], #spr_form.search textarea, #spr_form.search select, #spr_form.search .autocomplete_field{	
+    width:230px;	
+}
+
+#spr_form.docs div{
+	float:left;
+}
+
+#spr_form input[required], #spr_form select[required], div[required]{
+    border-left:1px solid red;
+} 
+
+#spr_form .smallfont{
+    font-size:11px;
+    width:auto;
+}
+
+#spr_form div .ctrl_select{
+    color:red;
+}
+
+.quick_search input[type="submit"]{
+	height:28px;	
+	margin:12px 0 0;
+	display:inline;
+	width:100px;
+}
+
+.quick_search{
+	margin: 0 0 20px 5px;
+}
+
+/* чтобы корректно работал плагин jquery MultiSelect*/
+#spr_form .ms-options-wrap > .ms-options > ul label {   
+    display: inline-block;
+    width: auto;
+    padding: 4px 4px 4px 20px;
+    margin: 1px 0;   
+    font-weight: 300;
+}
+#spr_form .ms-options-wrap > .ms-options {    
+    left: 27px;   
+}
+#spr_form .ms-options-wrap > button {   
+    width: 360px;
+}
+
+fieldset{
+	width:400px;
+	background-color:#eff8ef;
+	padding:15px;	
+	border:1px solid green;	
+}
+
+fieldset.edit{
+	background-color:#eff4f8;
+	border:1px solid #086cc1;
+}
+
+fieldset.docs{
+	width:200px;
+	float:left;
+	margin: 0 8px 8px;
+	min-height:420px;
+}
+
+fieldset.search{
+	width:230px;
+	background-color:#DBDEDF;
+	border:1px solid #a4c2d1;
+	margin:auto;
+	margin-bottom:10px;
+}
+
+legend {
+	color:green;
+	font-size:17px;
+}
+
+.edit legend{
+	color:#086cc1;
+}
+
+div.line>div {
+    display: inline-block;
+    width: auto;
+    vertical-align: top;
+    padding: 0 10px 10px 0;
+}
+
+div.line>div table{
+    margin-top:10px;
+}
+
+ul.standart{
+    list-style-type: none;
+}
+ul.standart li{
+    padding:5px;
+}
+ul.standart li a{
+    margin:10px;
+    font-size:16px;
+}
+ul.standart li img{
+    vertical-align: -10px;
+}
+
+
+.entity img{
+	width:100%;
+	margin-top:4px;
+}
+
+.entity fieldset{
+	width:600px;
+}
+
+.entity_edit{
+	width:200px;
+}
+
+.parametr{
+	margin:3px 0 15px 0;
+	
+}
+
+.data {
+	clear:left;
+}
+
+.data div{
+	float:left;
+	margin:3px 7px 0 3px;
+}
+
+.parametr div{
+	/*display:inline;*/
+	/*float: left;*/
+	margin: 7px 7px 5px 0;
+}
+
+.parametr .label{
+	font-weight:700;
+	margin-right:20px;
+}
+
+.parametr .edit_value{
+    color:#0000EE;
+    font-size: 25px;
+    margin:-10px 10px 0 0;
+    cursor:pointer;    
+}
+
+/** вывод сущности */
+.mode{
+	margin:-20px 0 20px 0;
+}
+.mode div{
+	display:inline-block;
+	margin:5px;
+}
+
+/**-------*/
+
+.error{
+    padding:10px;
+    margin:10px;
+    color:red;    
+	font-size:14px;
+}
+
+.count_search{
+	padding:6px;
+	/*font-weight:700;*/
+}
+
+.aslink {
+	text-decoration:underline;
+	color:blue;
+	cursor:pointer;
+}
+
+.successfully{
+	font-size:14px;
+}
+
+.chosen-container-single .chosen-single{
+	border-radius:0;
+	background: none;
+	background-color:white;
+	/*border-left:0px;*/
+}
+div.value .chosen-container-single .chosen-single{
+	margin-top: -10px;
+}
+
+.input_select select{
+    min-height:25px;
+    margin-bottom: 5px;
+}
+.input_anonce{
+	padding: 15px;
+    width: 400px;
+    background-color: #fdfd0236;
+    border: 1px solid #eaea72;
+    margin: 10px 0 10px 0;
+}
+a.add{
+	margin:4px;
+	font-size:14px;
+}
