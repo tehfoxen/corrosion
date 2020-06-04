@@ -47,12 +47,20 @@ class FieldsForm{
 	   }
            
 	   foreach ($value_array as $key=>$value) {
-            //echo 'key='.$key.' value='.$value.'selected_value='.$selected_value.'<br>';			
-			//echo 'key=';var_dump($key);
-			$selected = '';
-			if($selected_value !== null)				
-				$selected = (isset($key) and $selected_value == $key) ? ' selected ' : '' ;		
-            $echo .= '<option value="'.$key.'"'.$selected.'>'.$value.'</option>';		
+		    if(is_array($value)){                
+                $echo .= "<optgroup label=$key>";
+                foreach($value as $k=>$v){
+                    $selected = (!empty($selected_value) and in_array($k, $selected_value)) ? ' selected ' : '';
+                    $echo .=  "<option value=$k $selected > $v </option>";
+                }
+                $echo .=   '</optgroup>';
+            }
+			else{
+				$selected = '';
+				if($selected_value !== null)				
+					$selected = (isset($key) and $selected_value == $key) ? ' selected ' : '' ;		
+				$echo .= '<option value="'.$key.'"'.$selected.'>'.$value.'</option>';		
+			}
         }
        
        $echo .= '</select>';
@@ -117,7 +125,7 @@ class FieldsForm{
                 $echo .=   '</optgroup>';
             }
             else{
-                $selected = (!empty($selected_value) and in_array($key, $selected_value)) ? ' selected ' : '';
+                $selected = (is_array($selected_value) and in_array($key, $selected_value)) ? ' selected ' : '';
                 $echo .=  "<option value=$key $selected > $value </option>";	
             }
        }

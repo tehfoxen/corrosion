@@ -27,7 +27,6 @@ class Model_Mydata extends Model{
 						
 			//Массив из обычных данных (таблица data)
 			$stmt = DB::run("SELECT * FROM data WHERE entity_id IN ($entity_str) AND parametr_id IN ($pattern_str) ORDER BY entity_id DESC, parametr_id ASC");
-			//echo "SELECT * FROM data WHERE entity_id IN ($entity_str) AND parametr_id IN ($pattern_str) ORDER BY entity_id DESC, parametr_id ASC";
 			while ($row = $stmt->fetch()){
 				$param_id = $row['parametr_id'];
 				$param_name = Helper::ParamName($param_id);			
@@ -38,8 +37,6 @@ class Model_Mydata extends Model{
 				$field = $datatype.'_value';
 
 				$mydata[$entity_id]['Дата внесения'] = $time_create;
-				//$mydata[$entity_id]['ГОСТ'] = Helper::GostNameMethodId($method_id);
-				//$mydata[$entity_id]['Метод испытания'] = Helper::MethodName($method_id);
 				
 				//'Описание испытания' - параметр, добавленный в Структура-Параметры. Сделан полем "Шаблон" и "Обязательным". Но для испытаний по ГОСТ параметр удаляется с помощью JS. В следующий массив добавляется либо гост.метод, либо значение параметра 'Описание испытания'.
 				$mydata[$entity_id]['Описание испытания'] = Helper::GostNameMethodId($method_id).'<div data-method='.$method_id.'>'.Helper::MethodName($method_id).'</div>';
@@ -75,15 +72,5 @@ class Model_Mydata extends Model{
 		return $mydata;
 	}
 	
-	/** Удаление сущности (всей инфы об образце) Удаляем файлы и из таблицы entity. Из таблиц с данными удалится само (CASCADE in foreign key)*/
-	public function DelEntity(){
-		if(Helper::UserDataAdd(route::arg()) == $this->user_session or $_SESSION['user_role']==1){
-			$entity_id = route::arg();
-			$stmt = DB::run("DELETE FROM entity WHERE id=?", [$entity_id]);
-			$obj = new files('input');
-			$obj ->FileDelete($entity_id.'_*');	
-		}
-		else
-			route::ErrorPage404();
-	}
+	
 }

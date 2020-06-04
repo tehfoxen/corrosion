@@ -9,12 +9,8 @@ class Controller_Mydata extends Controller {
     function action_index(){
 	   $data[0] = $this->model->GetMyData();
 	   //var_dump($data[0])	;  
-	   $this->view->generate('mydata_view.php', 'template_view.php', $data);
+	   $this->view->generate('view_mydata.php', 'view_template.php', $data);
     } 
 	
-	function action_entitydel(){
-		$this->model->DelEntity();	
-		header('location:'.$_SERVER['HTTP_REFERER']);
-		//$this->headerToStart();
-	}
+	
 }

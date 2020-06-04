@@ -9,7 +9,7 @@ class Controller_Data extends Controller {
 	function action_getfield(){       
 	   //$obj= new Model_Data();
 	   $field = $this->model->GetField();	   
-	   include 'application/views/data_ajax_view.php';
+	   include 'application/views/view_data_ajax.php';
     }
 	
 	function action_delete(){       
@@ -24,16 +24,26 @@ class Controller_Data extends Controller {
 	
 	function action_entity(){       
 	    $data[0] = $this->model->GetEntity();	
+		//var_dump($data[0]);
+		//die;
 		$role = $_SESSION['user_role'];
 		$userid_add_entity = helper::UserDataAdd(route::arg());
 		$userid = $_SESSION['user_id'];
 		$data['access'] = ($role == 1 or $userid == $userid_add_entity) ? 1 : 0;	
 		
-		/* echo '--role='.$role;	
+		/* 
+		echo '--role='.$role;	
 		echo '--userid='.$userid;	
-		echo '--userid_add_entity='.$userid_add_entity;	 */
+		echo '--userid_add_entity='.$userid_add_entity;	 
+		*/
 	   
-	   include 'application/views/mydata_ajax_view.php';
+	   include 'application/views/view_mydata_ajax.php';
     } 
+	
+	function action_entitydel(){
+		$this->model->DelEntity();	
+		header('location:'.$_SERVER['HTTP_REFERER']);
+		//$this->headerToStart();
+	}
     
 }

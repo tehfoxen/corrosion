@@ -43,15 +43,22 @@ class Model_Structure extends Structure
 		}
 		$string = implode(',',$string_arr);    
 		
-		if($id)		
+		if($id){
 			$query = "UPDATE `$this->table_name` SET $string WHERE `id`='$id'";
+			helper::WriteLog('changes'); //надо перенести
+		}		
+			
 		else
 			$query = "INSERT INTO `$this->table_name` SET $string";
-			
 		
-		//echo $query;
-		$rs = DB::exec($query);
-		if(!$rs)  DB::errorInfo();
+		
+		$rs = DB::exec($query);			
+		if(!$rs)
+			throw new Exception();
+		if($id){			
+			helper::WriteLog('changes'); 
+		}	
+		
 		
 		$lastID = ($id) ? $id : DB::lastInsertId();
 		$this->lastID = $lastID; 
@@ -86,14 +93,13 @@ class Model_Structure extends Structure
 	}
     
      public function del_data(){
-         //try {
             $stmt = DB::run("DELETE FROM `$this->table_name` WHERE id=?", [$this->arg]);
-        // }
-         /*  catch (Exception $e) {
-            echo "Произошла ошибка: " . $e->getMessage() . "\n";
-        } */
-        $this->files->FileDelete($this->arg);
-    } 
+			$this->files->FileDelete($this->arg);
+			helper::WriteLog('changes');        
+    }
+
+
+
     
        
     

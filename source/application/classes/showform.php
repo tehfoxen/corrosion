@@ -83,9 +83,10 @@ class ShowForm extends Structure{
                 } 
                     
                 //$stmt = DB::query("SELECT `id`, `name` FROM `$table` $where ORDER BY `name`")->fetchAll(PDO::FETCH_KEY_PAIR);  
-                $stmt = $this->getArrayGost();
+                //$stmt = $this->getArrayGost();
+				$stmt = helper::getArrayGost();
 				//echo 'stmt=';var_dump($stmt);echo '<br>';
-                $echo .=  $this->fieldsform->SelectMultiple($stmt, $k, 10, ['selected_value'=>$selected_value]);
+                $echo .=  $this->fieldsform->SelectMultiple($stmt, $k, 10, ['selected_value'=>$selected_value,'class'=>'check']);
 			}
 			
 			//Поле autocomplete
@@ -126,6 +127,7 @@ class ShowForm extends Structure{
 		}
 		$echo .=  '<div>';
 		$echo .=  '<input type="submit" name="'.$this->action_name.'" value="Отправить" />';
+		//$echo .=  '<input type="submit" name="change" value="Отправить" />';
 		
 		
 		$echo .=  '</div>';	
@@ -136,7 +138,7 @@ class ShowForm extends Structure{
 			
 	}
     
-    function getArrayGost(){
+    /* function getArrayGost(){
         $stmt = DB::run("SELECT t1.id, t1.name as mname, t2.name as gname FROM `method` t1, `gost` t2 WHERE t2.id=gost_id");
         while ($row = $stmt->fetch()){
             $gname = $row['gname'];
@@ -145,7 +147,7 @@ class ShowForm extends Structure{
             $mid = $row['id'];
             $opt[$gname][$mid] = $row['mname'];
         }
-        return $opt;
-    }
-    
+        //var_dump($opt);
+		return $opt;
+    }    */ 
 }

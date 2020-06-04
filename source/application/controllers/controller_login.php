@@ -10,13 +10,13 @@ class Controller_Login extends Controller
         }
 		$data['loginform'] = $this->ShowLoginForm();	
 		
-		$this->view->generate('login_view.php', 'template_view.php', $data);
+		$this->view->generate('view_login.php', 'view_template.php', $data);
 	}
 	
 	function action_confirm()	{		
 		$obj = new User();
 		$data['confirm'] = $obj->UserRegFinally();		
-		$this->view->generate('login_view.php', 'template_view.php', $data); 
+		$this->view->generate('view_login.php', 'view_template.php', $data); 
 	}
 	
 	function ShowLoginForm(){		

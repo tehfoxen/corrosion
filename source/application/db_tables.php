@@ -71,7 +71,7 @@ $tbl_array = array(
         'category_id'=>'Категория@select@required',
         'method_id'=>'Метод испытаний@selectmulti@@@hidden',
         'required'=>'Обязательный для заполнения@logical',
-        'pattern'=>'Столбец таблицы раздела "Мои данные"@logical',		
+        'pattern'=>'Столбец таблицы "Мои данные"@logical',		
 		'search'=>'Столбец таблицы быстрого поиска@logical',
 		'access'=>'Виден всем@logical'
         ),        

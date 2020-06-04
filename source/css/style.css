@@ -28,11 +28,13 @@ nav a {
 
 nav ul ul {
 	display: none;
-	position: absolute;
-	top: 100%;
+    position: absolute;
+    top: 100%;
     background-color: white;
-    margin-left: -80px;
+    margin-left: -50px;
     border: 1px solid silver;
+    padding: 0;
+    z-index: 10000;
 }
 
 nav ul li:hover > ul {
@@ -56,17 +58,13 @@ nav ul li.active a, nav ul li.active ul li.active a{
 .hide {
 	display:none;
 }
-/* .getform{
-    display:none;
-} */
 
 /* оформление таблиц */
 .spr_table{
 	margin:5px;
 	padding:10px;
 	border-collapse: collapse;	
-	margin-right:15px;
-	
+	margin-right:15px;	
 }
 .spr_table th{
 	background-color:#dae3ea;
@@ -89,6 +87,20 @@ nav ul li.active a, nav ul li.active ul li.active a{
 #docs.spr_table th,#docs.spr_table td{
 	font-size:11px;
 	border:1px solid white;
+}
+
+.tablesorter{
+	width: auto;
+    font: inherit;
+}
+
+.tablesorter .tablesorter_all_theme  {
+	padding: 10px 20px;
+	text-align:center;
+}
+.tablesorter .tablesorter-noSort{
+	background-image:none;
+	cursor:auto;
 }
 
 .spr_title, .spr_title a {
@@ -198,8 +210,8 @@ a.edit_record:hover{
 	float:left;
 }
 
-#spr_form input[required], #spr_form select[required], div[required]{
-    border-left:1px solid red;
+#spr_form input[required], #spr_form select[required], #spr_form div[required], [required]{
+    border-left:2px solid red;
 } 
 
 #spr_form .smallfont{
@@ -210,6 +222,19 @@ a.edit_record:hover{
 #spr_form div .ctrl_select{
     color:red;
 }
+
+#spr_form input.many,#spr_form input.one{
+	display:inline-block;
+}
+
+.error_border, #spr_form input[type="text"].error_border {
+	border:2px solid red;
+}
+
+#spr_form .ms-options-wrap {
+    width: 360px;
+}
+
 
 .quick_search input[type="submit"]{
 	height:28px;	
@@ -222,7 +247,7 @@ a.edit_record:hover{
 	margin: 0 0 20px 5px;
 }
 
-/* чтобы корректно работал плагин jquery MultiSelect*/
+/* плагин jquery MultiSelect - чекбоксы в селекте мульти */
 #spr_form .ms-options-wrap > .ms-options > ul label {   
     display: inline-block;
     width: auto;
@@ -235,6 +260,22 @@ a.edit_record:hover{
 }
 #spr_form .ms-options-wrap > button {   
     width: 360px;
+}
+
+/** плагин Мультиселект (перенос данных между окнами)*/
+.ms-container {
+	width: auto;
+}
+.ms-container .ms-list{
+	height: 70vh;
+}
+.ms-container .ms-optgroup-label{
+	font-size:14px;
+	background-color:grey;
+	color:white;
+}
+.ms-container .ms-selectable li.ms-elem-selectable, .ms-container .ms-selection li.ms-elem-selection{
+	font-size:12px;
 }
 
 fieldset{
@@ -274,10 +315,16 @@ legend {
 }
 
 div.line>div {
-    display: inline-block;
+   /*  display: inline-block; */
     width: auto;
     vertical-align: top;
     padding: 0 10px 10px 0;
+}
+
+.title_form_structure{
+	padding:6px;
+	text-decoration:underline;
+	cursor:pointer;
 }
 
 div.line>div table{
@@ -345,10 +392,10 @@ ul.standart li img{
 }
 
 /** вывод сущности */
-.mode{
+.entity_mode{
 	margin:-20px 0 20px 0;
 }
-.mode div{
+.entity_mode div{
 	display:inline-block;
 	margin:5px;
 }
@@ -402,3 +449,135 @@ a.add{
 	margin:4px;
 	font-size:14px;
 }
+
+/** ========== ПОИСК ================= */
+
+.ms-container .ms-selectable li.isdata {    
+    color: blue;   
+}
+
+.chosen-container-single .chosen-search {
+    background-color: white;
+}
+
+.chosen-container-single .chosen-single div {
+    top: -9px;
+    right: -9px;
+}
+
+.chosen-container {
+    top: -5px;
+}
+
+.chosen-container .chosen-results li {   
+    font-weight: 300;
+}
+
+#searchresult tbody tr:first-child td{
+	vertical-align:top;	
+}
+
+#searchresult tbody #trstat td{
+	border-bottom:2px solid silver;
+}
+
+#searchresult .ms-options-wrap > .ms-options {
+    left: auto;	
+}
+
+#searchresult div.ms-options-wrap{
+	width:200px;	
+}
+
+#searchresult select.stat_method{
+	width:200px;
+}
+
+#searchresult .statresult{
+	margin-top:10px;	
+}
+
+#searchresult .statresult div{
+	padding:3px;
+}
+#searchresult .statresult div:not(:last-child){
+	border-bottom:1px solid silver;
+}
+
+#searchresult .statresult div span{
+	font-weight:700;
+}
+
+#spr_form.choose_param_list select, #spr_form.choose_param_list input, #spr_form.choose_param_list textarea{
+	width:auto;
+	vertical-align:top;
+	margin-top: 5px;
+}
+
+.choose_param {
+	padding: 1px 0;
+    margin: 15px 0;
+    background-color: #ece9e9;
+    border: 1px solid #cac3c3;	
+}
+.choose_param div {
+	display:inline-block;
+	margin: 10px;	
+}
+
+.choose_param  .del{
+	color:red;
+	font-weight:700;
+	font-size:15pt;
+	width:7pt;
+	cursor:pointer;
+}
+.choose_param  .sort{
+	font-size:15pt;
+	width:7pt;
+	cursor:move;
+}
+
+button.paramsearch{
+	margin:0 5pt 0 0;
+	display:none;
+}
+button#stat_result{
+	border: 2px solid green;
+    background-color: #3cc33c;
+    color: white;
+}
+
+.fieldforquery{
+	padding:0 20px;
+}
+
+ul.searchtab {
+	padding: 0 0 20px 0;
+}
+
+ul.searchtab li{
+	display:inline-block;
+	margin: 0 10px;
+}
+.choose_select{
+	font-weight:700;
+	min-width: 70%;
+}
+.minmax{
+	color: #908c8c;
+	font-weight:300;
+}
+select.query{
+	margin-top:5px;
+}
+
+.sblock3{
+	margin-top:20px;
+}
+.check_all{
+	width:17px;
+	height:17px;
+}
+
+

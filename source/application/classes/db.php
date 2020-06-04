@@ -8,9 +8,9 @@ if($_SERVER['REMOTE_ADDR']=='127.0.0.1'){
 }
 else{
 	define('DB_HOST', 'localhost');
-	define('DB_NAME', 'corrosion_test');
-	define('DB_USER', 'corrosion_test');
-	define('DB_PASS', '8V3x0Q9y');
+	define('DB_NAME', 'corrosion');
+	define('DB_USER', 'corrosion');
+	define('DB_PASS', 'R6s0F9r1');
 	define('DB_CHAR', 'utf8');
 }
 

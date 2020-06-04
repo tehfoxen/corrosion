@@ -6,7 +6,7 @@ class Route
     }
     
     static function hostlink(){
-        return 'https://' . self::host() . '/';
+        return 'http://' . self::host() . '/';
     }
     
     static function urlPars(){
@@ -37,11 +37,11 @@ class Route
     //видимость разделов
 	static function getPageRole(){
         if(!ROLE)
-            return ['','standart','login','data'];
+            return ['','standart','login','data','quicksearch','search','stat'];
         elseif(ROLE==2)
-            return ['','input','standart','data','mydata','logout'];
+            return ['','input','standart','data','mydata','logout','quicksearch','search','stat'];
         elseif(ROLE==1)
-            return ['','input','standart','data','mydata','user','userdata','category','gost','method','unit','parametr','discrete','logout'];
+            return ['','input','standart','data','mydata','user','userdata','category','gost','method','unit','parametr','discrete','logout','quicksearch','search','stat'];
     }
     
     static function start(){
@@ -110,7 +110,7 @@ class Route
         header("HTTP/1.1 404 Not Found");
         //die('404 not found');
         $obj = new view();
-        $obj->generate('404_view.php', 'template_view.php');
+        $obj->generate('view_404.php', 'view_template.php');
         die();
     }
 }

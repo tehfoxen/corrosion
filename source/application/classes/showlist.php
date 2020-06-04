@@ -39,7 +39,7 @@ class ShowList extends Structure{
 			if($hidden == 0)
 				$echo .= '<th>'.$ftype[0].'</th>';	
 		}
-			$echo .= '<th class="edit_del_links"></th>';
+			$echo .= '<th class="edit_del_links tablesorter-noSort"></th>';
 		
 		$echo .= '</thead></tr>';
 		

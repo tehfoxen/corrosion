@@ -1,53 +1,48 @@
 <?
 class Model_Input extends Model{
     
-    /* function __construct(){		
-        $this->arg = route::arg(); 
-	} */
-    
-    // список всех гостов
-    public function GetGost(){
-        return DB::run("SELECT `id`, `name` FROM `gost` ORDER BY `name`")->fetchAll(PDO::FETCH_KEY_PAIR);
-    }
-    
-    //список методов определенного госта
-    public function GetMethod(){
-        return DB::run("SELECT `id`, `name` FROM `method` WHERE `gost_id`=".route::arg()." ORDER BY `name`")->fetchAll(PDO::FETCH_KEY_PAIR);
-    }
-    
     //формирование поля формы в зависимости от типа данных
-	public function GetField($datatype,$idparam,$multiselect,$required,$title=NULL,$value=NULL){
+	public function GetField($datatype,$paramid,$multiselect,$required,$title=NULL,$value=NULL){
         $obj = new fieldsform();
-        $fieldname = 'param_'.$idparam;
+        $fieldname = 'param_'.$paramid;
         $required = $required ? 'required' :'';
         switch ($datatype) {
                 case 1: 
+					$field = $obj ->Text('text', $value, $fieldname, ['class'=>'itext', 'required'=>$required, 'placeholder'=>'целое число']);break;
 				case 2:
+					$field = $obj ->Text('text', $value, $fieldname, ['class'=>'itext', 'required'=>$required]);break;
                 case 5:
-                    $field = $obj ->Text('text', $value, $fieldname, ['class'=>'itext', 'required'=>$required, 'maxlength'=>255]);break;
-				/* case 2:
-					$field = $obj ->Text('number', $value, $fieldname, ['class'=>'inumber', 'required'=>$required, 'maxlength'=>255, 'step'=>0.0001]);break; */
+                    //, 'placeholder'=>'не более 255 символов'
+					$field = $obj ->Text('text', $value, $fieldname, ['class'=>'itext', 'required'=>$required, 'maxlength'=>255]);break;
                 case 3:
                     $field = $obj ->Text('text', $value, $fieldname, ['class'=>'idate', 'required'=>$required]);break;
                 case 7:
 				case 9:
-                    $field = $obj ->Text('file', $value, $fieldname, ['class'=>'ifile', 'required'=>$required]);break;
+					$field = $obj ->Text('file', $value, $fieldname, ['class'=>'ifile', 'required'=>$required]);break;
                 case 6:
                     $field = $obj ->TextArea($value, $fieldname);break;
                 case 4:
 					$field = $obj ->Select(Helper::LogicalArray(), $fieldname, ['title'=>$title, 'required'=>$required, 'selected_value'=>$value]); break;           
                 case 8:
-                    $list_array = DB::run("SELECT `id`, `name` FROM `discrete` WHERE `parametr_id`=$idparam ORDER BY `order` ASC, name ASC")->fetchAll(PDO::FETCH_KEY_PAIR);
-                    if($multiselect == 1)
-                        $field = $obj ->SelectMultiple($list_array, $fieldname, count($list_array), ['required'=>$required, 'selected_value'=>$value]);
+                    $list_array = helper::DiscreteValueList($paramid);
+					
+					if($paramid == 'gost')
+						//$list_array = $this->GetGost();
+						$list_array = helper::GetGost();
+                    if($paramid == 'method')
+						$list_array = helper::getArrayGost();
+					
+					if($multiselect == 1)
+                        $field = $obj ->SelectMultiple($list_array, $fieldname, 15, ['required'=>$required, 'selected_value'=>$value]);
                     else
                         $field = $obj ->Select($list_array, $fieldname, ['title'=>$title, 'required'=>$required, 'selected_value'=>$value]);
                     break;
         }
-        return $field;
+        //echo $field;
+		return $field;
     }
     
-    //Выбор пунтка 3 в основном селетке. Собираем уникальные испытания пользователя. По сути выкидываем лишнее из таблицы в разделе "Мои Данные" 
+    //Выбор пункта 3 в основном селекте. Собираем уникальные испытания пользователя. По сути выкидываем лишнее из таблицы в разделе "Мои Данные" 
 	function GetEarlyAdded(){
 		include 'application/models/model_mydata.php';
 		$obj = new Model_Mydata();		
@@ -66,10 +61,10 @@ class Model_Input extends Model{
 	//Список id параметров, принадлежащих конкретной сущности
 	function GetParamList($entity_id){
 		//из таблицы data
-		$param_array1 = DB::run("SELECT parametr_id FROM `data` WHERE entity_id = $entity_id")->fetchAll(PDO::FETCH_COLUMN);
+		$param_array1 = DB::run("SELECT `parametr_id` FROM `data` WHERE `entity_id` = ?",[$entity_id])->fetchAll(PDO::FETCH_COLUMN);		
 		
 		//из таблицы data_discrete
-		$param_array2 = DB::run("SELECT parametr_id FROM `data_discrete` WHERE entity_id = $entity_id")->fetchAll(PDO::FETCH_COLUMN);
+		$param_array2 = DB::run("SELECT `parametr_id` FROM `data_discrete` WHERE `entity_id` = ?",[$entity_id])->fetchAll(PDO::FETCH_COLUMN);
 		
 		//из файловой структуры
 		include 'application/classes/files.php';
@@ -136,13 +131,14 @@ class Model_Input extends Model{
     
     
     //все существующие параметры для выбора 
-    public function GetAllParam(){
-        $query = "
+    public function GetAllParam($where=NULL){
+		$query = "
         SELECT t1.id, t1.name, t2.name as category, t1.required
         FROM `parametr` t1        
         LEFT JOIN `category` t2 
             ON t1.category_id = t2.id         
-        ORDER BY t2.`order` ASC, t1.`name` ASC";
+        $where 
+		ORDER BY t2.`order` ASC, t1.`name` ASC";
         $stmt = DB::run($query);
         while ($row = $stmt->fetch()){
             $category =  $row['category'];            
@@ -153,7 +149,8 @@ class Model_Input extends Model{
 	
 	//Добавление данных
 	public function DataAdd(){
-		if(isset($_POST)){			
+		if(isset($_POST)){
+			//var_dump($_POST);			
 			//1. Пишем в entity сущность и получаем id сущности	
 			$method_id = $_POST['method_id'] ? (int)$_POST['method_id'] : NULL;
 				 
@@ -169,7 +166,6 @@ class Model_Input extends Model{
 						//дискретные
 						if($datatype == 'discrete') {
 							if(is_array($value)){ 						
-								
 								$stmt = DB::prepare("INSERT INTO `data_discrete` (`discrete_id`,`entity_id`,`parametr_id`) VALUES (?,?,?)");
 								foreach ($value as $discrete_id)
 									$stmt->execute([$discrete_id, $entity_id, $paramid]);
@@ -178,8 +174,16 @@ class Model_Input extends Model{
 								$stmt = DB::run("INSERT INTO `data_discrete` (`discrete_id`,`entity_id`,`parametr_id`) VALUES (?,?,?)", [$value,$entity_id,$paramid]);
 						}					
 						else{ //остальные
-							if($datatype == 'datetime')
-								$value = Helper::ChangeDateFormat($value,'Y-m-d');
+							if($datatype == 'datetime'){
+								if(!Helper::validDate($value)) {
+									//echo 'неверный формат даты';
+									//die;
+									throw new Exception('Неверный формат даты');
+								}
+								else
+									$value = Helper::ChangeDateFormat($value,'Y-m-d');
+							}
+								
 							if($datatype == 'float'){
 								$value = str_replace(',' , '.' , $value );
 							}
